@@ -1,0 +1,141 @@
+<bookstore>
+	<book>
+		<name>The Count of Monte Cristo</name>
+		<isbn>9780140434273</isbn>
+		<author>Alexandre Dumas</author>
+		<price>200</price>
+		<imgSrc>img/monte.jpg</imgSrc>
+		<isBestBook>true</isBestBook> 
+		<publishedDate>1/1/1800</publishedDate>
+	</book>
+	
+	<book>
+		<name>The Pickwick Papers</name>
+		<isbn>9780140436112</isbn>
+		<author>Charles Dickens</author>
+		<price>100</price>
+		<imgSrc>img/pickwick.jpg</imgSrc>
+		<isBestBook>false</isBestBook> 
+		<publishedDate>1/1/1850</publishedDate>
+	</book>
+	
+	<book>
+		<name>Master of the Game</name>
+		<isbn>1231240436112</isbn>
+		<author>Sidney Sheldon</author>
+		<price>300</price>
+		<imgSrc>img/master.jpg</imgSrc>
+		<isBestBook>false</isBestBook> 
+		<publishedDate>false</publishedDate>
+	</book>
+	
+	<book>
+		<name>Pride and Prejudice</name>
+		<isbn>1213134555555</isbn>
+		<author>Jane Austen</author>
+		<price>400</price>
+		<imgSrc>img/pride.jpg</imgSrc>
+		<isBestBook>false</isBestBook> 
+		<publishedDate>false</publishedDate>
+	</book>
+	
+	<book>
+		<name>Dont Tell</name>
+		<isbn>94654855555</isbn>
+		<author>Karen Rose</author>
+		<price>500</price>
+		<imgSrc>img/donttell.jpg</imgSrc>
+		<isBestBook>false</isBestBook> 
+		<publishedDate>false</publishedDate>
+	</book>
+	
+	<book>
+		<name>The Prometheus Deception</name>
+		<isbn>445456</isbn>
+		<author>Robert Ludlum</author>
+		<price>600</price>
+		<imgSrc>img/prometheus.jpg</imgSrc>
+		<isBestBook>false</isBestBook> 
+		<publishedDate>false</publishedDate>
+	</book>
+	
+	<book>
+		<name>Hornet Flight</name>
+		<isbn>6651555</isbn>
+		<author>Ken Follet</author>
+		<price>700</price>
+		<imgSrc>img/hornet.jpg</imgSrc>
+		<isBestBook>false</isBestBook> 
+		<publishedDate>false</publishedDate>
+	</book>
+	
+	<book>
+		<name>A Christmas Carol</name>
+		<isbn>13496</isbn>
+		<author>Charles Dickens</author>
+		<price>800</price>
+		<imgSrc>img/christmas.jpg</imgSrc>
+		<isBestBook>false</isBestBook> 
+		<publishedDate>false</publishedDate>
+	</book>     
+	
+     <book>
+		<name>The Da Vinci Code</name>
+		<isbn>79701</isbn>
+		<author>Dan Brown</author>
+		<price>900</price>
+		<imgSrc>img/DaVinciCode.jpg</imgSrc>
+		<isBestBook>false</isBestBook> 
+		<publishedDate>false</publishedDate>
+	</book>  
+	
+     <book>
+		<name>Uncle Tom s Cabin</name>
+		<isbn>101694</isbn>
+		<author>Harriet Beecher Stowe</author>
+		<price>1000</price>
+		<imgSrc>img/uncle.jpg</imgSrc>
+		<isBestBook>false</isBestBook> 
+		<publishedDate>false</publishedDate>
+	</book>  
+	
+     <book>
+		<name>Perry Mason</name>
+		<isbn>313196</isbn>
+		<author>Erle Stanley Gardner</author>
+		<price>1100</price>
+		<imgSrc>img/perry.jpeg</imgSrc>
+		<isBestBook>false</isBestBook> 
+		<publishedDate>false</publishedDate>
+	</book>  
+     
+     <book>
+		<name>Bear Island</name>
+		<isbn>71198797</isbn>
+		<author>Alistair MacLean</author>
+		<price>1200</price>
+		<imgSrc>img/bear.jpg</imgSrc>
+		<isBestBook>false</isBestBook> 
+		<publishedDate>false</publishedDate>
+	</book>  
+	
+     <book>
+		<name>And then there were none</name>
+		<isbn>131469496</isbn>
+		<author>Agatha Christie</author>
+		<price>1300</price>
+		<imgSrc>img/agatha.jpg</imgSrc>
+		<isBestBook>false</isBestBook> 
+		<publishedDate>false</publishedDate>
+	</book>  
+	
+     <book>
+		<name>Tom Jones</name>
+		<isbn>414977</isbn>
+		<author>Henry Fielding</author>
+		<price>1400</price>
+		<imgSrc>img/tom.jpg</imgSrc>
+		<isBestBook>false</isBestBook> 
+		<publishedDate>false</publishedDate>
+	</book>  
+</bookstore>

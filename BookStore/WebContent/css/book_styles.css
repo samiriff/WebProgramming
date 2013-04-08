@@ -1,0 +1,256 @@
+body
+{
+background-image:url('../img/background-12.jpg');
+}
+
+h1
+{
+font-family:  'Hoefler Text', Georgia, 'Times New Roman', serif;
+font-weight: normal;
+font-size: 50%;
+text-align: center;
+text-transform: uppercase;
+}
+
+
+
+
+
+
+.listView div.bookTitleLink
+{
+margin:10px;
+border-style:dotted;
+border-width:5px;
+border-color:#459A00;
+text-align: center;
+margin-left: 25%;
+width:50%;
+}
+
+div.listView a:hover,div.listView a:active 
+{
+color:green;
+text-decoration:none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+div.thumbnail a:hover,div.thumbnail a:active 
+{
+color:green;
+text-decoration:none;
+}
+
+div.thumbnail div.bestBook
+{
+margin:10px;
+border-style:outset;
+border-width:15px;
+border-color:yellow;
+width:510px;
+height:505px;
+float:left;
+}
+
+div.thumbnail div.bestBook img
+{
+width:400px;
+height:400px;
+margin-left:50px;
+margin-top:20px;
+}
+
+div.thumbnail div.bestBook div.bookTitleLink a
+{
+background:#5CCD00;
+background:-moz-linear-gradient(top,#5CCD00 0%,#4AA400 100%);
+background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#5CCD00),color-stop(100%,#4AA400));
+background:-webkit-linear-gradient(top,#5CCD00 0%,#4AA400 100%);
+background:-o-linear-gradient(top,#5CCD00 0%,#4AA400 100%);
+background:-ms-linear-gradient(top,#5CCD00 0%,#4AA400 100%);
+background:linear-gradient(top,#5CCD00 0%,#4AA400 100%);
+filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#5CCD00',endColorstr='#4AA400',GradientType=0);
+padding:10px 15px;
+color:#fff;
+font-family:'Helvetica Neue',sans-serif;
+font-size:16px;
+border-radius:5px;
+-moz-border-radius:5px;
+-webkit-border-radius:5px;
+border:7px solid #459A00;
+text-decoration:none;
+}
+
+div.thumbnail div.bestBook:hover, div.thumbnail div.bestBook img:hover
+{
+border-style:inset;
+border-color:green;
+border-width:5px;
+}
+
+div.thumbnail div.odd
+{
+margin:10px;
+border-style:outset;
+border-width:5px;
+border-color:red;
+width:250px;
+height:250px;
+float:left;
+}
+
+div.thumbnail div.odd:hover
+{
+border-style:inset;
+border-color:green;
+}
+
+div.thumbnail div.even
+{
+margin:10px;
+border-style:outset;
+border-width:5px;
+border-color:blue;
+width:250px;
+height:250px;
+float:left;
+}
+
+div.thumbnail div.even:hover
+{
+border-style:inset;
+border-color:green;
+}
+
+div.thumbnail div.odd img, div.thumbnail div.even img
+{
+width:200px;
+height:200px;
+margin-left:25px;
+margin-top:10px;
+}
+
+div.thumbnail div.odd img:hover, div.thumbnail div.even img:hover
+{
+width:207px;
+height:207px;
+margin-left:30px;
+margin-top:2px;
+}
+
+div.thumbnail div.odd, div.thumbnail div.even, div.thumbnail div.bestBook
+{
+border:outset;
+border-radius:25px;
+}  
+
+div.thumbnail div.bookTitleLink
+{
+margin-left:auto;
+margin-right:auto;
+width:80%;
+text-align:center;
+}
+
+div.statusBar
+{
+border:outset;
+border-width:3px;
+border-color: red;
+text-align:center;
+position:fixed;
+left:70%;
+background-color:black;
+color: white;
+z-index:10;
+}
+
+/*This code doesn't work...''*/
+div.thumbnail div.popup
+{
+position:relative;
+left:30px;
+top:-50px;
+visibility: hidden;
+}
+
+div.thumbnail div.popup:hover
+{
+visibility: visible;
+}
+
+
+/*The following styles were obtained from http://graemeboy.com/css-buttons/ */
+.styled-button-1 
+{
+background:#5CCD00;
+background:-moz-linear-gradient(top,#5CCD00 0%,#4AA400 100%);
+background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#5CCD00),color-stop(100%,#4AA400));
+background:-webkit-linear-gradient(top,#5CCD00 0%,#4AA400 100%);
+background:-o-linear-gradient(top,#5CCD00 0%,#4AA400 100%);
+background:-ms-linear-gradient(top,#5CCD00 0%,#4AA400 100%);
+background:linear-gradient(top,#5CCD00 0%,#4AA400 100%);
+filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#5CCD00',endColorstr='#4AA400',GradientType=0);
+padding:10px 15px;
+color:#fff;
+font-family:'Helvetica Neue',sans-serif;
+font-size:16px;
+border-radius:5px;
+-moz-border-radius:5px;
+-webkit-border-radius:5px;
+border:1px solid #459A00;
+cursor:pointer;
+}
+
+.styled-title {
+background:#00A0D1;
+background:-moz-linear-gradient(top,#00A0D1 0%,#008DB8 100%);
+background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#00A0D1),color-stop(100%,#008DB8));
+background:-webkit-linear-gradient(top,#00A0D1 0%,#008DB8 100%);
+background:-o-linear-gradient(top,#00A0D1 0%,#008DB8 100%);
+background:-ms-linear-gradient(top,#00A0D1 0%,#008DB8 100%);
+background:linear-gradient(top,#00A0D1 0%,#008DB8 100%);
+filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#00A0D1',endColorstr='#008DB8',GradientType=0);
+padding:8px 20px;
+color:#cfebf3;
+font-family:'Helvetica Neue',sans-serif;
+font-size:50px;
+border-radius:40px;
+-moz-border-radius:40px;
+-webkit-border-radius:40px;
+border:1px solid #095B7E;
+cursor:pointer;
+}
+
+.styled-search-bar {
+background:#FEDA71;
+background:-moz-linear-gradient(top,#FEDA71 0%,#FEBB49 100%);
+background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#FEDA71),color-stop(100%,#FEBB49));
+background:-webkit-linear-gradient(top,#FEDA71 0%,#FEBB49 100%);
+background:-o-linear-gradient(top,#FEDA71 0%,#FEBB49 100%);
+background:-ms-linear-gradient(top,#FEDA71 0%,#FEBB49 100%);
+background:linear-gradient(top,#FEDA71 0%,#FEBB49 100%);
+filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#FEDA71',endColorstr='#FEBB49',GradientType=0);
+padding:8px 18px;
+color:#623F1D;
+font-family:'Helvetica Neue',sans-serif;
+font-size:16px;
+border-radius:48px;
+-moz-border-radius:48px;
+-webkit-border-radius:48px;
+border:1px solid #623F1D;
+float:right;
+cursor:pointer;
+}
+
