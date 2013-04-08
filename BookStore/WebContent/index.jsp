@@ -22,6 +22,8 @@
 	<div id="ajax_filler">
 	</div>
 	
+	
+	
 	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 	<script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
 	<script type="text/javascript" src="./js/MainPage.js"></script>
@@ -38,6 +40,7 @@
 		});
 		
 	</script>
-
+	
+	
 </body>
 </html>

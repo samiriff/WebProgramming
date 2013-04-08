@@ -9,9 +9,14 @@
 	</head>	
 	<body id="content">
 		<h1 class="styled-title">Book Shop</h1>
+		
 		<div style="text-align: center;;"> 
+			<input id="button_addBook" style="text-align: center;" value="Add Book"/>
+			<br/>
+			<br/>
+			<br/>
+			
 			<form name="input" action="./Add Books.html" method="get">				
-				<input class="styled-button-1"type="submit" value="Add Book"/>
                 <input class="styled-button-1"type="button" value="See All Books" onclick="window.location.reload(true);"/>
                 <input class="styled-button-1"type="button" value="Sort Books by Title" onclick="sort();"/>
                 <input class="styled-button-1"type="button" id="toggleButton" value="Switch to List View" onclick="toggleView();"/>
@@ -44,6 +49,41 @@
         <div id="ajax_description">
         </div>
         
+        <div id="dialog_addBook" title="Add New Book">
+		<p>All form fields are required.</p>
+		<form>
+			<fieldset>
+				<label for="name">Name</label>
+				 <input style="float:right;" type="text" name="name" id="name" class="text ui-widget-content ui-corner-all" />	
+				 <br/>
+				 <br/>			 			 
+				<label for="isbn">ISBN</label>
+				 <input style="float:right;" type="text" name="isbn" id="isbn" value="" class="text ui-widget-content ui-corner-all" />
+				 <br/>			
+				 <br/>			 	 
+				<label for="author">Author</label>
+				 <input style="float:right;" type="text" name="author" id="author" value="" class="text ui-widget-content ui-corner-all" />
+				 <br/>
+				 <br/>			 
+				<label for="price">Price</label>
+				 <input style="float:right;" type="text" name="price" id="price" value="" class="text ui-widget-content ui-corner-all" />
+				 <br/>
+				 <br/>			 
+				<label for="imgSrc">Image</label>
+				 <input style="float:right;" type="text" name="imgSrc" id="imgSrc" value="" class="text ui-widget-content ui-corner-all" />
+				 <br/>
+				 <br/>			 
+				<label for="isBest">Best Book</label>
+				 <input style="float:right;" type="checkbox" name="isBest" id="isBest" value="" class="text ui-widget-content ui-corner-all" />
+				 <br/>
+				 <br/>			 
+				<label for="publishDate">Date Published</label>
+				 <input style="float:right;" type="date" name="publishDate" id="publishDate" value="" class="text ui-widget-content ui-corner-all" />
+				 <br/>
+				 <br/>			 
+			</fieldset>
+		</form>
+	</div>
         
         <script type="text/javascript" src="js/loggerClass.js"></script>
         		
@@ -81,8 +121,47 @@
     					{"taskType" : "<%=Constants.TaskType.SEARCH%>",
         				 "searchKey" : $("#searchBarInput").val()});
         	});
+        	
+        	/*$("#button_addBook").button().click(function () {
+    			$("#ajax_filler").load("MainController",
+    					{"taskType" : "<%=Constants.TaskType.ADD_NEW_BOOK%>"});    			
+    		});*/
         </script>
         
+        <script type="text/javascript">
+		$(function() {		
+			$( "#dialog_addBook" ).dialog({
+								autoOpen : false,
+								height : 650,
+								width : 500,
+								modal : true,
+								buttons : {
+									"Add" : function() {	
+										$("#ajax_filler").load("MainController",
+						    					{"taskType" : "<%=Constants.TaskType.ADD_NEW_BOOK%>",
+												 "name" : $("#name").val() , 
+												 "isbn" : $("#isbn").val() , 
+												 "author" : $("#author").val() ,
+												 "price" : $("#price").val() , 
+												 "imgSrc" : $("#imgSrc").val() , 
+												 "isBestBook" : $("#isBest").attr('checked') ,
+												 "publishedDate" : $("#publishDate").val()}
+										);  																			
+										$(this).dialog("close");	
+												
+									},
+									Cancel : function() {
+										$(this).dialog("close");
+									}
+								},
+								close : function() {								
+								}
+							});
+			$("#button_addBook").button().click(function() {
+				$("#dialog_addBook").dialog("open");
+			});
+		});
+	</script>
         
     
     </body>

@@ -62,14 +62,17 @@ public class MainController extends HttpServlet implements Constants {
 	private void resolveTask(TaskType taskType, BookStore bookStore, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		String address = "";		
 		switch(taskType){
+		
 			case DISPLAY_ALL_BOOKS: 
 				address = PATH_PREFIX + "Home Page.jsp";
 				break;
+				
 			case SEARCH: 
 				BookStoreBean searchResults = bookStore.searchByTitle(request.getParameter("searchKey"));				
 				request.setAttribute("searchResultBean", searchResults);
 				address = PATH_PREFIX + "Search Page.jsp";
 				break;
+				
 			case SHOPPING_CART:
 				BookBean resultBean = bookStore.searchByISBN(request.getParameter("isbn"));			
 				log.info("Search ISBN = " + request.getParameter("isbn"));
@@ -77,6 +80,7 @@ public class MainController extends HttpServlet implements Constants {
 				request.setAttribute("resultBean", resultBean);
 				address = PATH_PREFIX + "Details Page.jsp";
 				break;
+				
 			case ADD_TO_CART:
 				BookBean bookBought = bookStore.addToCart(request.getParameter("isbn"));
 				request.setAttribute("bookBought", bookBought);
@@ -91,6 +95,19 @@ public class MainController extends HttpServlet implements Constants {
 			case REST_API:
 				log.info("REST API");
 				response.sendRedirect("book/books");				
+				break;
+				
+			case ADD_NEW_BOOK:
+				log.info("ADDING NEW BOOK");
+				bookStore.insertBook(request.getServletContext().getRealPath("/") + "DataSource/bookStore.xml", 
+									new BookBean(request.getParameter("name"), 
+										request.getParameter("isbn"), 
+										request.getParameter("author"), 
+										Integer.parseInt(request.getParameter("price")), 
+										request.getParameter("imgSrc"), 
+										Boolean.parseBoolean(request.getParameter("isBestBook")), 
+										request.getParameter("publishedDate")));				
+				
 				break;
 		}		
 		if(!address.isEmpty()){

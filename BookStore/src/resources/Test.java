@@ -28,7 +28,7 @@ public class Test {
   }
 
   private static URI getBaseURI() {
-    return UriBuilder.fromUri("http://localhost:8181/BookStore").build();
+    return UriBuilder.fromUri("http://localhost:8080/BookStore").build();
   }
 
 } 

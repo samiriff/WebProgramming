@@ -9,6 +9,7 @@ public interface Constants
 		SEARCH,
 		SHOPPING_CART,
 		ADD_TO_CART, 
-		REST_API
+		REST_API,
+		ADD_NEW_BOOK
 	}
 }

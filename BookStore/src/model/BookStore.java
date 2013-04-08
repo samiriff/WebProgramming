@@ -1,15 +1,30 @@
 package model;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
+import org.xml.sax.SAXException;
 
 import bean.BookBean;
 import bean.BookStoreBean;
@@ -21,10 +36,10 @@ import bean.BookStoreBean;
  */
 public class BookStore {
 	
-	BookStoreBean bookStoreBean;
+	private BookStoreBean bookStoreBean;	
 	
 	public BookStore(String path){
-		bookStoreBean = new BookStoreBean();
+		bookStoreBean = new BookStoreBean();		
 		populateBookStore(path, bookStoreBean);		
 	}
 	
@@ -67,6 +82,67 @@ public class BookStore {
 		BookBean bookBean = searchByISBN(isbn);
 		bookBean.addToCart();
 		return bookBean;
+	}
+	
+	public void insertBook(String path, BookBean bookBean)
+	{
+		try{
+			Logger.getLogger(BookStore.class.getName()).log(Level.SEVERE, "PATH =  " + path);
+            File xmlFile = new File(path);
+            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();            
+            Document document = documentBuilder.parse(xmlFile);
+            
+            //Get the root element of the xml Document;
+            Node root = document.getFirstChild();
+            Logger.getLogger(BookStore.class.getName()).log(Level.SEVERE, "documentElement:" + root.toString());
+            Element book = document.createElement("book");
+            
+            Element name = document.createElement("name");
+            name.appendChild(document.createTextNode(bookBean.getBookTitle()));
+            Element isbn = document.createElement("isbn");
+            isbn.appendChild(document.createTextNode(bookBean.getIsbn()));
+            Element author = document.createElement("author");
+            author.appendChild(document.createTextNode(bookBean.getAuthor()));
+            Element price = document.createElement("price");
+            price.appendChild(document.createTextNode("" + bookBean.getPrice()));
+            Element imgSrc = document.createElement("imgSrc");
+            imgSrc.appendChild(document.createTextNode(bookBean.getImgSrc()));
+            Element isBestBook = document.createElement("isBestBook");
+            isBestBook.appendChild(document.createTextNode("" + bookBean.isBestBook()));
+            Element publishedDate = document.createElement("publishedDate");
+            publishedDate.appendChild(document.createTextNode(bookBean.getPublishedDate()));
+    		
+            book.appendChild(name);
+            book.appendChild(isbn);
+            book.appendChild(author);
+            book.appendChild(price);
+            book.appendChild(imgSrc);
+            book.appendChild(isBestBook);
+            book.appendChild(publishedDate);
+            
+    		root.appendChild(book);
+    		
+    		TransformerFactory transformerFactory = TransformerFactory.newInstance();
+    		Transformer transformer = transformerFactory.newTransformer();
+    		DOMSource source = new DOMSource(document);
+    		StreamResult result = new StreamResult(new File(path));
+    		transformer.transform(source, result);
+     
+    		System.out.println("Done");
+        } catch (SAXException ex) {
+            Logger.getLogger(BookStore.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(BookStore.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParserConfigurationException ex) {
+            Logger.getLogger(BookStore.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (TransformerConfigurationException ex){
+        	Logger.getLogger(BookStore.class.getName()).log(Level.SEVERE, null, ex);
+		} catch (TransformerException ex){
+			Logger.getLogger(BookStore.class.getName()).log(Level.SEVERE, null, ex);
+		}
+    
+		populateBookStore(path, bookStoreBean);
 	}
 
 	/**

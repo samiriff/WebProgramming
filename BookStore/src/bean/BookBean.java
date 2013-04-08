@@ -8,7 +8,7 @@ import java.io.Serializable;
  *
  */
 public class BookBean implements Serializable{
-	
+
 	private static final long serialVersionUID = -3409927196328235078L;
 	private String bookTitle;
 	private String isbn;
@@ -62,5 +62,14 @@ public class BookBean implements Serializable{
 	public void addToCart() {
 		if(this.stock > 0)
 			this.stock--;
+	}
+	
+	
+	public String toString()
+	{
+		return "BookBean [bookTitle=" + bookTitle + ", isbn=" + isbn
+				+ ", author=" + author + ", price=" + price + ", imgSrc="
+				+ imgSrc + ", isBestBook=" + isBestBook + ", publishedDate="
+				+ publishedDate + ", stock=" + stock + "]";
 	}
 }
