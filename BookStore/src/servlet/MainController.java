@@ -26,7 +26,8 @@ public class MainController extends HttpServlet implements Constants {
 	private static final long serialVersionUID = 1L;
 	private static final String PATH_PREFIX = "/jsp/";
 	private Logger log = Logger.getLogger(MainController.class.getName());
-       
+    private String mutex = "";   
+	
     /**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -46,8 +47,10 @@ public class MainController extends HttpServlet implements Constants {
 		log.info(bookStore.getBookStoreBean().toString());
 		log.info(request.getParameter("searchKey"));
 		
-		resolveTask(TaskType.valueOf(request.getParameter("taskType")), bookStore, request, response);		 
-				
+		//Making operations thread-safe
+		synchronized (mutex) {
+			resolveTask(TaskType.valueOf(request.getParameter("taskType")), bookStore, request, response);
+		}				
 	}
 
 	/**
@@ -64,16 +67,19 @@ public class MainController extends HttpServlet implements Constants {
 		switch(taskType){
 		
 			case DISPLAY_ALL_BOOKS: 
+				log.info("DISPLAY_ALL_BOOKS");
 				address = PATH_PREFIX + "Home Page.jsp";
 				break;
 				
 			case SEARCH: 
+				log.info("SEARCH");
 				BookStoreBean searchResults = bookStore.searchByTitle(request.getParameter("searchKey"));				
 				request.setAttribute("searchResultBean", searchResults);
 				address = PATH_PREFIX + "Search Page.jsp";
 				break;
 				
 			case SHOPPING_CART:
+				log.info("SHOPPING_CART");
 				BookBean resultBean = bookStore.searchByISBN(request.getParameter("isbn"));			
 				log.info("Search ISBN = " + request.getParameter("isbn"));
 				log.info("Result bean = " + resultBean.getBookTitle());
@@ -82,6 +88,7 @@ public class MainController extends HttpServlet implements Constants {
 				break;
 				
 			case ADD_TO_CART:
+				log.info("ADD_TO_CART");
 				BookBean bookBought = bookStore.addToCart(request.getParameter("isbn"));
 				request.setAttribute("bookBought", bookBought);
 				log.info("" + bookBought.getStock());
@@ -99,7 +106,7 @@ public class MainController extends HttpServlet implements Constants {
 				
 			case ADD_NEW_BOOK:
 				log.info("ADDING NEW BOOK");
-				bookStore.insertBook(request.getServletContext().getRealPath("/") + "DataSource/bookStore.xml", 
+				boolean status = bookStore.insertBook(request.getServletContext().getRealPath("/") + "DataSource/bookStore.xml", 
 									new BookBean(request.getParameter("name"), 
 										request.getParameter("isbn"), 
 										request.getParameter("author"), 
@@ -107,7 +114,13 @@ public class MainController extends HttpServlet implements Constants {
 										request.getParameter("imgSrc"), 
 										Boolean.parseBoolean(request.getParameter("isBestBook")), 
 										request.getParameter("publishedDate")));				
+				out = response.getWriter();				
+				out.println("Book added " + (status? "" : "un") + "successfully");
+				break;
 				
+			case DELETE_BOOK:
+				log.info("DELETE BOOK");
+				bookStore.deleteBook(request.getServletContext().getRealPath("/") + "DataSource/bookStore.xml", request.getParameter("isbn"));
 				break;
 		}		
 		if(!address.isEmpty()){

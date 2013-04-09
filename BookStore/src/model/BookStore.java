@@ -67,7 +67,7 @@ public class BookStore {
 	public BookBean searchByISBN(String isbn) {		
 		List<BookBean> bookList = bookStoreBean.getBookList();	
 		for(BookBean bookBean : bookList){
-			if(bookBean.getIsbn().indexOf(isbn) != -1)
+			if(bookBean.getIsbn().equals(isbn))
 				return bookBean;
 		}
 		return null;
@@ -84,7 +84,7 @@ public class BookStore {
 		return bookBean;
 	}
 	
-	public void insertBook(String path, BookBean bookBean)
+	public boolean insertBook(String path, BookBean bookBean)
 	{
 		try{
 			Logger.getLogger(BookStore.class.getName()).log(Level.SEVERE, "PATH =  " + path);
@@ -130,6 +130,8 @@ public class BookStore {
     		transformer.transform(source, result);
      
     		System.out.println("Done");
+    		populateBookStore(path, bookStoreBean);
+    		return true;
         } catch (SAXException ex) {
             Logger.getLogger(BookStore.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -142,7 +144,55 @@ public class BookStore {
 			Logger.getLogger(BookStore.class.getName()).log(Level.SEVERE, null, ex);
 		}
     
-		populateBookStore(path, bookStoreBean);
+		return false;
+	}
+	
+	public void deleteBook(String path, String isbn){
+		try{
+			Logger.getLogger(BookStore.class.getName()).log(Level.SEVERE, "PATH =  " + path);
+            File xmlFile = new File(path);
+            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();            
+            Document document = documentBuilder.parse(xmlFile);
+            
+            //Get the root element of the xml Document;
+            Node root = document.getFirstChild();
+            Logger.getLogger(BookStore.class.getName()).log(Level.SEVERE, "documentElement:" + root.toString());
+            
+            NodeList nList = document.getElementsByTagName("book");			
+			
+			for (int temp = 0; temp < nList.getLength(); temp++) {			 
+				Node nNode = nList.item(temp);			
+		 
+				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+		 
+					Element eElement = (Element) nNode; 
+					
+					if(eElement.getElementsByTagName("isbn").item(0).getTextContent().equalsIgnoreCase(isbn)){
+						root.removeChild(nNode);
+						break;									
+					}
+				}
+			}
+			
+			// write the content into xml file
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			Transformer transformer = transformerFactory.newTransformer();
+			DOMSource source = new DOMSource(document);
+			StreamResult result = new StreamResult(new File(path));
+			transformer.transform(source, result);
+	 
+			System.out.println("Done");
+			populateBookStore(path, bookStoreBean);
+		} catch (ParserConfigurationException pce) {
+			pce.printStackTrace();
+		} catch (TransformerException tfe) {
+			tfe.printStackTrace();
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		} catch (SAXException sae) {
+			sae.printStackTrace();
+		}
 	}
 
 	/**
@@ -152,6 +202,8 @@ public class BookStore {
 	 */
 	private void populateBookStore(String path, BookStoreBean bookStoreBean) {
 		try{		
+			bookStoreBean.clear();
+			
 			File fXMLFile = new File(path);
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();

@@ -26,4 +26,8 @@ public class BookStoreBean {
 	public void addBookBean(BookBean bookBean){
 		bookList.add(bookBean);
 	}
+	
+	public void clear(){
+		bookList.clear();
+	}
 }

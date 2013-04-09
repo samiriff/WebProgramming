@@ -10,6 +10,7 @@ public interface Constants
 		SHOPPING_CART,
 		ADD_TO_CART, 
 		REST_API,
-		ADD_NEW_BOOK
+		ADD_NEW_BOOK,
+		DELETE_BOOK
 	}
 }

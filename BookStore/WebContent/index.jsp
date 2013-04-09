@@ -28,7 +28,7 @@
 	<script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
 	<script type="text/javascript" src="./js/MainPage.js"></script>
 	<script type="text/javascript">
-		$("#button_home").button().click(function () {
+		$("#button_home").button().click(function () {			
 			$("#ajax_filler").load("MainController",
 					{"taskType" : "<%=Constants.TaskType.DISPLAY_ALL_BOOKS%>"});
 			$("#button_home").prop('value', 'Refresh');

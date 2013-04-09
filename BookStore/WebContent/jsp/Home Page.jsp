@@ -12,7 +12,9 @@
 		
 		<div style="text-align: center;;"> 
 			<input id="button_addBook" style="text-align: center;" value="Add Book"/>
+			<input id="button_delBook" style="text-align: center;" value="Delete Book"/>
 			<br/>
+			<div id="addBook_status"></div>
 			<br/>
 			<br/>
 			
@@ -84,6 +86,16 @@
 			</fieldset>
 		</form>
 	</div>
+	
+	<div id="dialog_delBook" title="Delete Book">
+		<p>All form fields are required.</p>
+		<form>
+			<fieldset>				
+				<label for="isbn_del">ISBN</label>
+				 <input style="float:right;" type="text" name="isbn_del" id="isbn_del" value="" class="text ui-widget-content ui-corner-all" />					 
+			</fieldset>
+		</form>
+	</div>
         
         <script type="text/javascript" src="js/loggerClass.js"></script>
         		
@@ -137,7 +149,7 @@
 								modal : true,
 								buttons : {
 									"Add" : function() {	
-										$("#ajax_filler").load("MainController",
+										$("#addBook_status").load("MainController",
 						    					{"taskType" : "<%=Constants.TaskType.ADD_NEW_BOOK%>",
 												 "name" : $("#name").val() , 
 												 "isbn" : $("#isbn").val() , 
@@ -146,7 +158,10 @@
 												 "imgSrc" : $("#imgSrc").val() , 
 												 "isBestBook" : $("#isBest").attr('checked') ,
 												 "publishedDate" : $("#publishDate").val()}
-										);  																			
+										);  					
+												
+										$("#ajax_filler").load("MainController",
+												{"taskType" : "<%=Constants.TaskType.DISPLAY_ALL_BOOKS%>"});										
 										$(this).dialog("close");	
 												
 									},
@@ -159,6 +174,38 @@
 							});
 			$("#button_addBook").button().click(function() {
 				$("#dialog_addBook").dialog("open");
+			});
+		});
+	</script>
+	
+	<script type="text/javascript">
+		$(function() {		
+			$( "#dialog_delBook" ).dialog({
+								autoOpen : false,
+								height : 350,
+								width : 500,
+								modal : true,
+								buttons : {
+									"Delete" : function() {	
+										$("#addBook_status").load("MainController",
+						    					{"taskType" : "<%=Constants.TaskType.DELETE_BOOK%>",												  
+												 "isbn" : $("#isbn_del").val()}											 
+										);  					
+												
+										setTimeout(function(){$("#ajax_filler").load("MainController",
+												{"taskType" : "<%=Constants.TaskType.DISPLAY_ALL_BOOKS%>"});},2000);
+										$(this).dialog("close");	
+												
+									},
+									Cancel : function() {
+										$(this).dialog("close");
+									}
+								},
+								close : function() {								
+								}
+							});
+			$("#button_delBook").button().click(function() {
+				$("#dialog_delBook").dialog("open");
 			});
 		});
 	</script>
