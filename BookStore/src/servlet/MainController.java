@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import bean.BookBean;
 import bean.BookStoreBean;
 
-import model.BookStore;
 import model.Constants;
 
 
@@ -35,34 +34,30 @@ public class MainController extends HttpServlet implements Constants {
 		
 		//Maintaining only one bean per session (based on the assumption that bookStore.xml is never updated)
 		BookStoreBean bookStoreBean = (BookStoreBean) request.getSession().getAttribute("bookStoreBean");
-		BookStore bookStore;
+		
 		if(bookStoreBean == null){			
-			bookStore = new BookStore(request.getServletContext().getRealPath("/") + "DataSource/bookStore.xml");
-			request.getSession().setAttribute("bookStoreBean", bookStore.getBookStoreBean());
-		}
-		else{
-			bookStore = new BookStore(bookStoreBean);
+			bookStoreBean = new BookStoreBean(request.getServletContext().getRealPath("/") + "DataSource/bookStore.xml");
+			request.getSession().setAttribute("bookStoreBean", bookStoreBean);
 		}
 		
-		log.info(bookStore.getBookStoreBean().toString());
-		log.info(request.getParameter("searchKey"));
+		log.info(bookStoreBean.toString());		
 		
 		//Making operations thread-safe
 		synchronized (mutex) {
-			resolveTask(TaskType.valueOf(request.getParameter("taskType")), bookStore, request, response);
+			resolveTask(TaskType.valueOf(request.getParameter("taskType")), bookStoreBean, request, response);
 		}				
 	}
 
 	/**
 	 * Performs the required task and forwards results to other jsp pages
 	 * @param taskType
-	 * @param bookStore
+	 * @param bookStoreBean
 	 * @param request
 	 * @param response
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	private void resolveTask(TaskType taskType, BookStore bookStore, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+	private void resolveTask(TaskType taskType, BookStoreBean bookStoreBean, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		String address = "";		
 		switch(taskType){
 		
@@ -73,14 +68,14 @@ public class MainController extends HttpServlet implements Constants {
 				
 			case SEARCH: 
 				log.info("SEARCH");
-				BookStoreBean searchResults = bookStore.searchByTitle(request.getParameter("searchKey"));				
+				BookStoreBean searchResults = bookStoreBean.searchByTitle(request.getParameter("searchKey"));				
 				request.setAttribute("searchResultBean", searchResults);
 				address = PATH_PREFIX + "Search Page.jsp";
 				break;
 				
 			case SHOPPING_CART:
 				log.info("SHOPPING_CART");
-				BookBean resultBean = bookStore.searchByISBN(request.getParameter("isbn"));			
+				BookBean resultBean = bookStoreBean.searchByISBN(request.getParameter("isbn"));			
 				log.info("Search ISBN = " + request.getParameter("isbn"));
 				log.info("Result bean = " + resultBean.getBookTitle());
 				request.setAttribute("resultBean", resultBean);
@@ -89,7 +84,7 @@ public class MainController extends HttpServlet implements Constants {
 				
 			case ADD_TO_CART:
 				log.info("ADD_TO_CART");
-				BookBean bookBought = bookStore.addToCart(request.getParameter("isbn"));
+				BookBean bookBought = bookStoreBean.addToCart(request.getParameter("isbn"));
 				request.setAttribute("bookBought", bookBought);
 				log.info("" + bookBought.getStock());
 				PrintWriter out = response.getWriter();
@@ -106,7 +101,7 @@ public class MainController extends HttpServlet implements Constants {
 				
 			case ADD_NEW_BOOK:
 				log.info("ADDING NEW BOOK");
-				boolean status = bookStore.insertBook(request.getServletContext().getRealPath("/") + "DataSource/bookStore.xml", 
+				boolean status = bookStoreBean.insertBook(request.getServletContext().getRealPath("/") + "DataSource/bookStore.xml", 
 									new BookBean(request.getParameter("name"), 
 										request.getParameter("isbn"), 
 										request.getParameter("author"), 
@@ -120,7 +115,7 @@ public class MainController extends HttpServlet implements Constants {
 				
 			case DELETE_BOOK:
 				log.info("DELETE BOOK");
-				bookStore.deleteBook(request.getServletContext().getRealPath("/") + "DataSource/bookStore.xml", request.getParameter("isbn"));
+				bookStoreBean.deleteBook(request.getServletContext().getRealPath("/") + "DataSource/bookStore.xml", request.getParameter("isbn"));
 				break;
 		}		
 		if(!address.isEmpty()){

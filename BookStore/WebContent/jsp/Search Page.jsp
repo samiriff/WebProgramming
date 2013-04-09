@@ -16,8 +16,8 @@
 	<script type="text/javascript">
 		var searchResults = [];
 		<c:forEach items="${searchResultBean.bookList}" var="book">
-			var bookObj = new PublishedBook('${book.bookTitle}', '${book.isbn}', '${book.author}', 
-					'${book.price}', '${book.imgSrc}', '${book.bestBook}', '${book.publishedDate}');
+			var bookObj = new PublishedBook('${book.value.bookTitle}', '${book.value.isbn}', '${book.value.author}', 
+					'${book.value.price}', '${book.value.imgSrc}', '${book.value.bestBook}', '${book.value.publishedDate}');
 			searchResults.push(bookObj);
 		</c:forEach>	 
 		

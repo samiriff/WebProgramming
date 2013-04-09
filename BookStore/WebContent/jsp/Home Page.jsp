@@ -103,13 +103,13 @@
         	//Loading JSON array using beans from Server
 	        var books = [];
 	    	<c:forEach items="${bookStoreBean.bookList}" var="book">
-	    		books.push({name : '${book.bookTitle}',
-	    					isbn : '${book.isbn}',
-	    					author : '${book.author}',
-	    					price : '${book.price}',
-	    					imgSrc : '${book.imgSrc}',
-	    					isBestBook : ${book.bestBook},
-	    					publishedDate : '${book.publishedDate}'});
+	    		books.push({name : '${book.value.bookTitle}',
+	    					isbn : '${book.value.isbn}',
+	    					author : '${book.value.author}',
+	    					price : '${book.value.price}',
+	    					imgSrc : '${book.value.imgSrc}',
+	    					isBestBook : ${book.value.bestBook},
+	    					publishedDate : '${book.value.publishedDate}'});
 	    	</c:forEach>	    	
         </script>
         
@@ -156,7 +156,7 @@
 												 "author" : $("#author").val() ,
 												 "price" : $("#price").val() , 
 												 "imgSrc" : $("#imgSrc").val() , 
-												 "isBestBook" : $("#isBest").attr('checked') ,
+												 "isBestBook" : $('#isBest').is(":checked") ,
 												 "publishedDate" : $("#publishDate").val()}
 										);  					
 												
