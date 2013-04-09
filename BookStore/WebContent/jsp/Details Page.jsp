@@ -8,32 +8,35 @@
 <title>Book Details Page</title>
 </head>
 <body>
-	Price = Rs. ${resultBean.price}
-	<br/> 
-    ISBN = ${resultBean.isbn} 
-    <br/>
-    Title = ${resultBean.bookTitle}
-    <br/>
-	
-	Published on ${resultBean.publishedDate}
-	<br/>
-	<img src="${resultBean.imgSrc}"/>
-	<br/>		
-	
-	<div id="div_stock">		
-		var str = '';
-	    if("${resultBean.stock}" == 0){
-			str = "Out of Stock";
-		}
-	    else{
-	    	str = "In Stock = " + ${resultBean.stock};
-	    }
-    	document.getElementById("div_stock").innerHTML = str;
-	</div>		
-	
-	<br/>
-	<input id="buttonBuy" type="button" value="Buy" />
-	<input id="buttonClose" type="button" value="Close" />
+	<div style="border-color:green; border-width:20px;">
+		Price = Rs. ${resultBean.price}
+		<br/> 
+	    ISBN = ${resultBean.isbn} 
+	    <br/>
+	    Title = ${resultBean.bookTitle}
+	    <br/>
+		
+		Published on ${resultBean.publishedDate}
+		<br/>
+		<img style="width: 300px; height: 500px;" src="${resultBean.imgSrc}"/>
+		<br/>		
+		
+		<div id="div_stock">		
+			var str = '';
+		    if("${resultBean.stock}" == 0){
+				str = "Out of Stock";
+			}
+		    else{
+		    	str = "In Stock = " + ${resultBean.stock};
+		    }
+	    	document.getElementById("div_stock").innerHTML = str;
+		</div>		
+		
+		<br/>
+		<input id="buttonBuy" type="button" value="Buy" />
+		<input id="buttonClose" type="button" value="Close" />
+		
+	</div>
 	
 	
     <script type="text/javascript">    	
@@ -46,15 +49,15 @@
 	    }
 		document.getElementById("div_stock").innerHTML = str;
     
-		document.getElementById("buttonBuy").onclick = function(){		
+		$("#buttonBuy").button().click(function() {		
 			$("#div_stock").load("MainController",
 					{"taskType" : "<%=Constants.TaskType.ADD_TO_CART%>",
 					 "isbn" : "${resultBean.isbn}"}
 			);
-		};
-		document.getElementById("buttonClose").onclick = function(){
+		});
+		$("#buttonClose").button().click(function() {	
 			document.getElementById("shoppingCart").innerHTML = '';
-		};		
+		});		
 	</script>
 
 </body>

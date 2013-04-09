@@ -65,7 +65,7 @@ var isThumbnailView = true;
             var str = 'Price = Rs.' + price + '<br/>' 
                 + 'ISBN = ' + isbn + '<br/>'
                 + 'Title = ' + name + '<br/>'
-                + '<img src="' + imgSrc + '"/>';
+                + '<img style="width: 500px; height: 500px;" src="' + imgSrc + '"/>';
             document.getElementById("selectedBook").innerHTML = str;
         }
         
@@ -73,7 +73,7 @@ var isThumbnailView = true;
             var str = 'Price = Rs.' + bookObj._price + '<br/>' 
                 + 'ISBN = ' + bookObj._isbn + '<br/>'
                 + 'Title = ' + bookObj._name + '<br/>'		
-                + '<img src="' + bookObj._imgSrc + '"/>';
+                + '<img style="width: 300px; height: 500px;" src="' + bookObj._imgSrc + '"/>';
             document.getElementById("selectedBook").innerHTML = str;
         }   
 		

@@ -26,7 +26,7 @@
 		</div>
         
         <br />
-		<div id="shoppingCart" style="border-color:green; border-width:20px;" class="statusBar" onclick="">		
+		<div id="shoppingCart"  class="statusBar" style="left:80%">		
         </div>
         <div id="selectedBook" class="statusBar" style="left:80%">
         </div>
