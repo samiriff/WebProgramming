@@ -2,6 +2,8 @@ package model;
 
 public interface Constants
 {
+	public static final String XML_FILE_NAME = "DataSource/bookStore.xml";
+	
 	//List of all possible tasks
 	enum TaskType
 	{

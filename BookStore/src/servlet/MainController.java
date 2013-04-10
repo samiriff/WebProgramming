@@ -36,7 +36,7 @@ public class MainController extends HttpServlet implements Constants {
 		BookStoreBean bookStoreBean = (BookStoreBean) request.getSession().getAttribute("bookStoreBean");
 		
 		if(bookStoreBean == null){			
-			bookStoreBean = new BookStoreBean(request.getServletContext().getRealPath("/") + "DataSource/bookStore.xml");
+			bookStoreBean = new BookStoreBean(request.getServletContext().getRealPath("/") + XML_FILE_NAME);
 			request.getSession().setAttribute("bookStoreBean", bookStoreBean);
 		}
 		
@@ -96,12 +96,12 @@ public class MainController extends HttpServlet implements Constants {
 				
 			case REST_API:
 				log.info("REST API");
-				response.sendRedirect("book/books");				
+				response.sendRedirect("rest/books");
 				break;
 				
 			case ADD_NEW_BOOK:
 				log.info("ADDING NEW BOOK");
-				boolean status = bookStoreBean.insertBook(request.getServletContext().getRealPath("/") + "DataSource/bookStore.xml", 
+				boolean status = bookStoreBean.insertBook(request.getServletContext().getRealPath("/") + XML_FILE_NAME, 
 									new BookBean(request.getParameter("name"), 
 										request.getParameter("isbn"), 
 										request.getParameter("author"), 
@@ -115,7 +115,7 @@ public class MainController extends HttpServlet implements Constants {
 				
 			case DELETE_BOOK:
 				log.info("DELETE BOOK");
-				bookStoreBean.deleteBook(request.getServletContext().getRealPath("/") + "DataSource/bookStore.xml", request.getParameter("isbn"));
+				bookStoreBean.deleteBook(request.getServletContext().getRealPath("/") + XML_FILE_NAME, request.getParameter("isbn"));
 				break;
 		}		
 		if(!address.isEmpty()){

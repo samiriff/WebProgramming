@@ -3,6 +3,7 @@ package bean;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -31,13 +32,34 @@ import org.xml.sax.SAXException;
  */
 public class BookStoreBean {
 	private LinkedHashMap<String, BookBean> bookList;
-	
+	private static String path;
+		
+	public String toHTMLString() {
+		String str = "<br/><br/><table border=\"4\">";
+		str += "<tr>" +
+				"<th>Title</th>" +
+				"<th>ISBN</th>" +
+				"<th>Author</th>" +
+				"<th>Price</th>" +
+				"<th>Image Source</th>" +
+				"<th>Is Best Book</th>" +
+				"<th>Date Published</th>" +
+				"<th>Stock</th>" +
+				"</tr>";
+		Iterator<String> iter = bookList.keySet().iterator();
+		while(iter.hasNext()){
+			str += "<tr>" + bookList.get(iter.next()).toHTMLString() + "</tr>";
+		}
+		return str;
+	}
+
 	public BookStoreBean(){
 		bookList = new LinkedHashMap<String, BookBean>();
 	}
 	
 	public BookStoreBean(String path){
 		this();
+		this.path = path;
 		populateBookStore(path);		
 	}
 	
@@ -50,11 +72,15 @@ public class BookStoreBean {
 	}
 	
 	public void addBookBean(BookBean bookBean){
-		bookList.put(bookBean.getIsbn(), bookBean);
+		bookList.put(bookBean.getIsbn(), bookBean);		
 	}
 	
 	public void clear(){
 		bookList.clear();
+	}
+	
+	public boolean isEmpty(){
+		return bookList.isEmpty();
 	}
 	
 	public BookStoreBean searchByTitle(String title){
@@ -249,5 +275,9 @@ public class BookStoreBean {
 		}catch (Exception e) {
 			e.printStackTrace();
 	    }
+	}
+	
+	public static String getPath(){
+		return path;
 	}
 }

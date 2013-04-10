@@ -1,6 +1,8 @@
+<%@page import="bean.BookStoreBean"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@page import="model.Constants" %>
+<% new BookStoreBean(request.getServletContext().getRealPath("/") + Constants.XML_FILE_NAME); %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
@@ -16,7 +18,7 @@
 <body>
 	<div style="margin-left: 45%">
 		<input id="button_home" type="button" value="Enter the AJAX Bookshop"/>
-		<input id="button_rest" type="button" value="Test REST API"/>
+		<input id="button_rest" type="button" value="REST Web Service"/>
 	</div>
 	
 	<div id="ajax_filler">

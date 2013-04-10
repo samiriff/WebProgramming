@@ -72,4 +72,11 @@ public class BookBean implements Serializable{
 				+ imgSrc + ", isBestBook=" + isBestBook + ", publishedDate="
 				+ publishedDate + ", stock=" + stock + "]";
 	}
+	
+	public String toHTMLString(){
+		return "<td>" + bookTitle + "</td><td>" + isbn
+				+ "</td><td>" + author + "</td><td>" + price + "</td><td>"
+				+ imgSrc + "</td><td>" + isBestBook + "</td><td>"
+				+ publishedDate + "</td><td>" + stock + "</td>";
+	}
 }
