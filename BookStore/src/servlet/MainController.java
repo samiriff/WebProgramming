@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import bean.BookBean;
 import bean.BookStoreBean;
+import bean.SearchResultBean;
 
-import model.Constants;
 
 
 /**
@@ -33,12 +33,9 @@ public class MainController extends HttpServlet implements Constants {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
 		
 		//Maintaining only one bean per session (based on the assumption that bookStore.xml is never updated)
-		BookStoreBean bookStoreBean = (BookStoreBean) request.getSession().getAttribute("bookStoreBean");
-		
-		if(bookStoreBean == null){			
-			bookStoreBean = new BookStoreBean(request.getServletContext().getRealPath("/") + XML_FILE_NAME);
-			request.getSession().setAttribute("bookStoreBean", bookStoreBean);
-		}
+			
+		BookStoreBean bookStoreBean = BookStoreBean.getInstance();
+		request.getSession().setAttribute("bookStoreBean", bookStoreBean);	
 		
 		log.info(bookStoreBean.toString());		
 		
@@ -62,13 +59,13 @@ public class MainController extends HttpServlet implements Constants {
 		switch(taskType){
 		
 			case DISPLAY_ALL_BOOKS: 
-				log.info("DISPLAY_ALL_BOOKS");
+				log.info("DISPLAY_ALL_BOOKS");				
 				address = PATH_PREFIX + "Home Page.jsp";
 				break;
 				
 			case SEARCH: 
-				log.info("SEARCH");
-				BookStoreBean searchResults = bookStoreBean.searchByTitle(request.getParameter("searchKey"));				
+				log.info("SEARCH " + request.getParameter("searchKey"));
+				SearchResultBean searchResults = bookStoreBean.searchByTitle(request.getParameter("searchKey"));				
 				request.setAttribute("searchResultBean", searchResults);
 				address = PATH_PREFIX + "Search Page.jsp";
 				break;

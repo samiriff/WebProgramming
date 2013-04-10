@@ -140,3 +140,5 @@ var isThumbnailView = true;
 		function clearInnerHTML(elementID){
 			document.getElementById(elementID).innerHTML = '';
 		}
+		
+

@@ -18,24 +18,27 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.xml.bind.JAXBElement;
 
+import servlet.Constants;
+
+
 import bean.BookBean;
 import bean.BookStoreBean;
+import bean.SearchResultBean;
 
 
 @Path("/books")
 public class BookResource {
 	
 	private static final String ERROR_MSG = "NO BOOK FOUND";
-	private static BookStoreBean bookStoreBean = new BookStoreBean();
+	private static BookStoreBean bookStoreBean;
 	
 	static{
-		bookStoreBean = new BookStoreBean(BookStoreBean.getPath());
+		bookStoreBean = BookStoreBean.getInstance();
 	}
 	
 	@GET
 	@Produces({ MediaType.TEXT_HTML})
-	public String getBooks() {
-		bookStoreBean = new BookStoreBean(BookStoreBean.getPath());
+	public String getBooks() {		
 		return bookStoreBean.toHTMLString();
 	}
 	
@@ -44,7 +47,7 @@ public class BookResource {
 	@Produces({ MediaType.TEXT_HTML })
 	public String getBookDetailByName(@PathParam("name")
 	String name) {
-		BookStoreBean resultBean = bookStoreBean.searchByTitle(name);
+		SearchResultBean resultBean = bookStoreBean.searchByTitle(name);
 		if(!resultBean.isEmpty())
 			return resultBean.toHTMLString();			
 		return ERROR_MSG;	
@@ -53,9 +56,10 @@ public class BookResource {
 	@DELETE
 	@Path("{isbn}")
 	@Produces({ MediaType.TEXT_HTML })
-	public void deleteBook(@PathParam("isbn")
+	public String deleteBook(@PathParam("isbn")
 	String isbn) throws WebApplicationException {
 		bookStoreBean.deleteBook(BookStoreBean.getPath(), isbn);
+		return "Book Deleted";
 	}
 	
 	@POST
@@ -71,7 +75,7 @@ public class BookResource {
 		int price = Integer.parseInt(tokens[3]);
 		String imgSrc = tokens[4];
 		boolean isBestBook = Boolean.parseBoolean(tokens[5]);
-		String publishedDate = tokens[6];
+		String publishedDate = tokens[6];		
 		bookStoreBean.insertBook(BookStoreBean.getPath(), new BookBean(bookTitle, isbn, author, price, imgSrc, isBestBook, publishedDate));
 		
 		return "Book added";

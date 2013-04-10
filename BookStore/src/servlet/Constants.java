@@ -1,8 +1,9 @@
-package model;
+package servlet;
 
 public interface Constants
 {
 	public static final String XML_FILE_NAME = "DataSource/bookStore.xml";
+	public static final int DEFAULT_STOCK = 5;
 	
 	//List of all possible tasks
 	enum TaskType

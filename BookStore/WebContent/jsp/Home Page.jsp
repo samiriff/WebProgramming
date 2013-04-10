@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<%@page import="model.Constants" %>
+<%@page import="servlet.Constants" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>	
 	<head>        
@@ -18,8 +18,7 @@
 			<br/>
 			<br/>
 			
-			<form name="input" action="./Add Books.html" method="get">				
-                <input class="styled-button-1"type="button" value="See All Books" onclick="window.location.reload(true);"/>
+			<form name="input" action="./Add Books.html" method="get">                
                 <input class="styled-button-1"type="button" value="Sort Books by Title" onclick="sort();"/>
                 <input class="styled-button-1"type="button" id="toggleButton" value="Switch to List View" onclick="toggleView();"/>
 			</form>
@@ -71,7 +70,7 @@
 				 <input style="float:right;" type="text" name="price" id="price" value="" class="text ui-widget-content ui-corner-all" />
 				 <br/>
 				 <br/>			 
-				<label for="imgSrc">Image</label>
+				<label for="imgSrc">Image URL</label>
 				 <input style="float:right;" type="text" name="imgSrc" id="imgSrc" value="" class="text ui-widget-content ui-corner-all" />
 				 <br/>
 				 <br/>			 

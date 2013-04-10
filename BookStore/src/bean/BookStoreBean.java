@@ -32,10 +32,14 @@ import org.xml.sax.SAXException;
  */
 public class BookStoreBean {
 	private LinkedHashMap<String, BookBean> bookList;
+	private static String CURRENT_DIRECTORY;
+	
+
 	private static String path;
+	private static BookStoreBean singleInstance;
 		
 	public String toHTMLString() {
-		String str = "<br/><br/><table border=\"4\">";
+		String str = "<br/><br/><div style=\"padding-left:25%; padding-right: 20%;\"><table border=\"4\">";
 		str += "<tr>" +
 				"<th>Title</th>" +
 				"<th>ISBN</th>" +
@@ -50,19 +54,27 @@ public class BookStoreBean {
 		while(iter.hasNext()){
 			str += "<tr>" + bookList.get(iter.next()).toHTMLString() + "</tr>";
 		}
+		str += "</div>";
 		return str;
 	}
 
-	public BookStoreBean(){
-		bookList = new LinkedHashMap<String, BookBean>();
+	private BookStoreBean(){
+		bookList = new LinkedHashMap<String, BookBean>();		
+		populateBookStore(path);	
+	}	
+		
+	public static BookStoreBean getInstance(){
+		if (singleInstance == null) {
+			synchronized (BookStoreBean.class){
+				if (singleInstance == null) {
+					singleInstance = new BookStoreBean();
+				}
+			}
+		}
+		return singleInstance;
 	}
-	
-	public BookStoreBean(String path){
-		this();
-		this.path = path;
-		populateBookStore(path);		
-	}
-	
+
+
 	public BookStoreBean(BookStoreBean bookStoreBean){
 		this.bookList = (LinkedHashMap<String, BookBean>) bookStoreBean.bookList.clone();
 	}
@@ -83,12 +95,16 @@ public class BookStoreBean {
 		return bookList.isEmpty();
 	}
 	
-	public BookStoreBean searchByTitle(String title){
+	public void refresh(){
+		populateBookStore(path);
+	}
+	
+	public SearchResultBean searchByTitle(String title){
 		if(title.trim().equals(""))
 			return null;
 		
 		title = title.toLowerCase();
-		BookStoreBean searchResults = new BookStoreBean();
+		SearchResultBean searchResults = new SearchResultBean();
 		for(BookBean bookBean : bookList.values()){
 			if(bookBean.getBookTitle().toLowerCase().indexOf(title) != -1)
 				searchResults.addBookBean(bookBean);
@@ -129,30 +145,7 @@ public class BookStoreBean {
             //Get the root element of the xml Document;
             Node root = document.getFirstChild();
             Logger.getLogger(BookStoreBean.class.getName()).log(Level.SEVERE, "documentElement:" + root.toString());
-            Element book = document.createElement("book");
-            
-            Element name = document.createElement("name");
-            name.appendChild(document.createTextNode(bookBean.getBookTitle()));
-            Element isbn = document.createElement("isbn");
-            isbn.appendChild(document.createTextNode(bookBean.getIsbn()));
-            Element author = document.createElement("author");
-            author.appendChild(document.createTextNode(bookBean.getAuthor()));
-            Element price = document.createElement("price");
-            price.appendChild(document.createTextNode("" + bookBean.getPrice()));
-            Element imgSrc = document.createElement("imgSrc");
-            imgSrc.appendChild(document.createTextNode(bookBean.getImgSrc()));
-            Element isBestBook = document.createElement("isBestBook");
-            isBestBook.appendChild(document.createTextNode("" + bookBean.isBestBook()));
-            Element publishedDate = document.createElement("publishedDate");
-            publishedDate.appendChild(document.createTextNode(bookBean.getPublishedDate()));
-    		
-            book.appendChild(name);
-            book.appendChild(isbn);
-            book.appendChild(author);
-            book.appendChild(price);
-            book.appendChild(imgSrc);
-            book.appendChild(isBestBook);
-            book.appendChild(publishedDate);
+            Element book = bookBean.toXMLElement(document);
             
     		root.appendChild(book);
     		
@@ -163,7 +156,8 @@ public class BookStoreBean {
     		transformer.transform(source, result);
      
     		System.out.println("Done");
-    		populateBookStore(path);
+    		bookList.put(bookBean.getIsbn(), bookBean);
+    		//populateBookStore(path);
     		return true;
         } catch (SAXException ex) {
             Logger.getLogger(BookStoreBean.class.getName()).log(Level.SEVERE, null, ex);
@@ -179,6 +173,8 @@ public class BookStoreBean {
     
 		return false;
 	}
+
+	
 	
 	/**
 	 * Deletes a book from the XML file
@@ -221,7 +217,8 @@ public class BookStoreBean {
 			transformer.transform(source, result);
 	 
 			System.out.println("Done");
-			populateBookStore(path);
+			bookList.remove(isbn);
+			//populateBookStore(path);
 		} catch (ParserConfigurationException pce) {
 			pce.printStackTrace();
 		} catch (TransformerException tfe) {
@@ -263,8 +260,7 @@ public class BookStoreBean {
 					int price = Integer.parseInt(eElement.getElementsByTagName("price").item(0).getTextContent());
 					String imgSrc = eElement.getElementsByTagName("imgSrc").item(0).getTextContent();
 					boolean isBestBook = Boolean.parseBoolean(eElement.getElementsByTagName("isBestBook").item(0).getTextContent());
-					String publishedDate = eElement.getElementsByTagName("publishedDate").item(0).getTextContent();
-					
+					String publishedDate = eElement.getElementsByTagName("publishedDate").item(0).getTextContent();					
 					
 					addBookBean(new BookBean(bookName, isbn, author, price, imgSrc, isBestBook, publishedDate));				
 				}
@@ -279,5 +275,17 @@ public class BookStoreBean {
 	
 	public static String getPath(){
 		return path;
+	}
+
+	public static void setPath(String path) {
+		BookStoreBean.path = path;
+	}
+	
+	public static String getCURRENT_DIRECTORY() {
+		return CURRENT_DIRECTORY;
+	}
+
+	public static void setCURRENT_DIRECTORY(String cURRENT_DIRECTORY) {
+		CURRENT_DIRECTORY = cURRENT_DIRECTORY;
 	}
 }

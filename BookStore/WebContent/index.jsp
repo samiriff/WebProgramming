@@ -1,8 +1,11 @@
 <%@page import="bean.BookStoreBean"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<%@page import="model.Constants" %>
-<% new BookStoreBean(request.getServletContext().getRealPath("/") + Constants.XML_FILE_NAME); %>
+<%@page import="servlet.Constants" %>
+<% 
+	//Setting Data source paths	
+	BookStoreBean.setPath(request.getServletContext().getRealPath("/") + Constants.XML_FILE_NAME); 
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
@@ -16,7 +19,7 @@
 </head>
 
 <body>
-	<div style="margin-left: 45%">
+	<div id="div_indexPage">
 		<input id="button_home" type="button" value="Enter the AJAX Bookshop"/>
 		<input id="button_rest" type="button" value="REST Web Service"/>
 	</div>
@@ -28,8 +31,11 @@
 	
 	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 	<script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
-	<script type="text/javascript" src="./js/MainPage.js"></script>
+	<script type="text/javascript" src="./js/bookDatabase.js"></script>
+	<script type="text/javascript" src="./js/mainPage.js"></script>
 	<script type="text/javascript">
+	
+	//I tried to put this code in mainPage.js ....but it didn't work.
 		$("#button_home").button().click(function () {			
 			$("#ajax_filler").load("MainController",
 					{"taskType" : "<%=Constants.TaskType.DISPLAY_ALL_BOOKS%>"});
@@ -39,8 +45,7 @@
 		$("#button_rest").button().click(function () {
 			$("#ajax_filler").load("MainController",
 					{"taskType" : "<%=Constants.TaskType.REST_API%>"});			
-		});
-		
+		});		
 	</script>
 	
 	
